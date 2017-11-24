@@ -10,17 +10,14 @@ RUN apt-get -q update && \
         gcc \
         make
 
-# Install Rpi.GPIO
-RUN pip install rpi.gpio
+# Copy requirements.txt first for better cache on later pushes
+COPY ./requirements.txt /requirements.txt
 
-# Download the SPI-Py project source files
-ADD https://github.com/rgerovski/SPI-Py/archive/v0.0.1.tar.gz SPI-Py.tar.gz
+# pip install python deps from requirements.txt on the resin.io build server
+RUN pip install -r /requirements.txt
 
-# Extract the tarball & clean-up
-RUN tar -xzvf SPI-Py.tar.gz && rm -f SPI-Py.tar.gz
-
-# Install SPI-Py
-RUN cd SPI-Py-0.0.1/ && python setup.py install
+# This will copy all files in our root to the working  directory in the container
+COPY . ./
 
 # Directory where python app will run
 RUN mkdir /app
