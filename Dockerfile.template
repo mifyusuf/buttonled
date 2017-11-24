@@ -23,7 +23,7 @@ RUN tar -xzvf SPI-Py.tar.gz && rm -f SPI-Py.tar.gz
 RUN cd SPI-Py-0.0.1/ && python setup.py install
 
 # Directory where python app will run
-RUN mkdir usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir /app
+WORKDIR /app
 ENV INITSYSTEM on
 CMD ["python","src/buttonled.py"]
